@@ -25,8 +25,8 @@ import org.elasticsearch.common.io.stream.StreamOutput;
 import org.elasticsearch.common.logging.support.LoggerMessageFormat;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.Index;
-import org.elasticsearch.index.shard.ShardId;
+//import org.elasticsearch.index.Index;
+//import org.elasticsearch.index.shard.ShardId;
 import org.elasticsearch.rest.RestStatus;
 
 import java.io.IOException;
@@ -406,10 +406,13 @@ public class ElasticsearchException extends RuntimeException implements ToXConte
     public String toString() {
         StringBuilder builder = new StringBuilder();
         if (headers.containsKey(INDEX_HEADER_KEY)) {
+            // disable getIndex --loginsight
+            /*
             builder.append('[').append(getIndex()).append(']');
             if (headers.containsKey(SHARD_HEADER_KEY)) {
                 builder.append('[').append(getShardId()).append(']');
             }
+            */
             builder.append(' ');
         }
         return builder.append(ExceptionsHelper.detailedMessage(this).trim()).toString();
@@ -625,7 +628,7 @@ public class ElasticsearchException extends RuntimeException implements ToXConte
         ID_TO_SUPPLIER = Collections.unmodifiableMap(idToSupplier);
         CLASS_TO_ID = Collections.unmodifiableMap(exceptions);
     }
-
+    /*
     public String getIndex() {
         List<String> index = getHeader(INDEX_HEADER_KEY);
         if (index != null && index.isEmpty() == false) {
@@ -661,7 +664,7 @@ public class ElasticsearchException extends RuntimeException implements ToXConte
             addHeader(SHARD_HEADER_KEY, Integer.toString(shardId.id()));
         }
     }
-
+    */
     public void setResources(String type, String... id) {
         assert type != null;
         addHeader(RESOURCE_HEADER_ID_KEY, id);

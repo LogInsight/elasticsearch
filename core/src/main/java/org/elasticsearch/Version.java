@@ -19,15 +19,15 @@
 
 package org.elasticsearch;
 
-import org.elasticsearch.cluster.metadata.IndexMetaData;
+//import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.SuppressForbidden;
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.io.stream.StreamOutput;
-import org.elasticsearch.common.lucene.Lucene;
+//import org.elasticsearch.common.lucene.Lucene;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.monitor.jvm.JvmInfo;
+//import org.elasticsearch.monitor.jvm.JvmInfo;
 
 import java.io.IOException;
 
@@ -269,7 +269,8 @@ public class Version {
     public static final Version CURRENT = V_2_0_0;
 
     static {
-        assert CURRENT.luceneVersion.equals(Lucene.VERSION) : "Version must be upgraded to [" + Lucene.VERSION + "] is still set to [" + CURRENT.luceneVersion + "]";
+        // we drop lucene , right? --loginsight
+        //assert CURRENT.luceneVersion.equals(Lucene.VERSION) : "Version must be upgraded to [" + Lucene.VERSION + "] is still set to [" + CURRENT.luceneVersion + "]";
     }
 
     public static Version readVersion(StreamInput in) throws IOException {
@@ -497,7 +498,8 @@ public class Version {
                 return V_0_18_8;
 
             default:
-                return new Version(id, false, Lucene.VERSION);
+                return V_2_0_0;
+                //return new Version(id, false, Lucene.VERSION);
         }
     }
 
@@ -507,11 +509,15 @@ public class Version {
      * @throws IllegalStateException if the given index settings doesn't contain a value for the key {@value IndexMetaData#SETTING_VERSION_CREATED}
      */
     public static Version indexCreated(Settings indexSettings) {
+        /*
         final Version indexVersion = indexSettings.getAsVersion(IndexMetaData.SETTING_VERSION_CREATED, null);
         if (indexVersion == null) {
             throw new IllegalStateException("[" + IndexMetaData.SETTING_VERSION_CREATED + "] is not present in the index settings for index with uuid: [" + indexSettings.get(IndexMetaData.SETTING_INDEX_UUID) + "]");
         }
         return indexVersion;
+        */
+        // read the version of es which create the index. --loginsight.
+        return Version.CURRENT; 
     }
 
     public static void writeVersion(Version version, StreamOutput out) throws IOException {
@@ -646,7 +652,8 @@ public class Version {
 
     @SuppressForbidden(reason = "System.out.*")
     public static void main(String[] args) {
-        System.out.println("Version: " + Version.CURRENT + ", Build: " + Build.CURRENT.hashShort() + "/" + Build.CURRENT.timestamp() + ", JVM: " + JvmInfo.jvmInfo().version());
+        // --loginsight
+        System.out.println("Version: " + Version.CURRENT + ", Build: " + Build.CURRENT.hashShort() + "/" + Build.CURRENT.timestamp() /* + ", JVM: " + JvmInfo.jvmInfo().version() */);
     }
 
     @Override
