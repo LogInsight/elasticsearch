@@ -1493,11 +1493,12 @@ org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UT
         </profile>
     </profiles>
     <modules>
-        <module>dev-tools</module>
+        <!-- remove all unessary code -->
+        <!-- <module>dev-tools</module>  -->
         <module>rest-api-spec</module>
         <module>core</module>
-        <module>distribution</module>
-        <module>plugins</module>
-        <module>qa</module>
+        <module>distribution</module> 
+        <!-- <module>plugins</module>  -->
+        <!-- <module>qa</module> -->
     </modules>
 </project>
